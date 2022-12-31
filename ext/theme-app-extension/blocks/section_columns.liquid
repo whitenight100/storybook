@@ -1,0 +1,134 @@
+<style>
+  #shopify-block-{{ block.id }} {
+    max-width: 0px !important;
+    max-height: 0px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  @supports (display: flex) and (gap: 10px) {
+    *:has(>div#shopify-block-{{ block.id }}) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: start;
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+    *:has(>div#shopify-block-{{ block.id }}) > * {
+      flex: 0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }});
+    }
+  }
+  @supports not ((display: flex) and (gap: 10px)) {
+    *:has(>div#shopify-block-{{ block.id }}) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: start;
+    }
+    *:has(>div#shopify-block-{{ block.id }}) > * {
+      flex: 0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }});
+      margin-right: {{ block.settings.mobile_gap }}px;
+      margin-bottom: {{ block.settings.mobile_gap }}px;
+    }
+    *:has(>div#shopify-block-{{ block.id }}) > *:nth-child({{ block.settings.mobile_columns }}n) {
+      margin-right: 0px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    {% comment %} need to write a custom polyfill {% endcomment %}
+    if (CSS.supports('(display: flex) and (gap: 10px)')) {
+      console.log('here')
+      window.steroids.polyfillHasSelector('*', ':scope > div#shopify-block-{{ block.id }}', {
+        'display': 'flex',
+        'flex-wrap': 'wrap',
+        'justify-content': 'start',
+        'gap': '{{ block.settings.mobile_gap }}px'
+      });
+      window.steroids.polyfillHasSelector('* > *', ':scope > div#shopify-block-{{ block.id }}', {
+        'flex': '0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }})'
+      });
+    } else {
+      window.steroids.polyfillHasSelector('*', ':scope > div#shopify-block-{{ block.id }}', {
+        'display': 'flex',
+        'flex-wrap': 'wrap',
+        'justify-content': 'start'
+      });
+      window.steroids.polyfillHasSelector('* > *', ':scope > div#shopify-block-{{ block.id }} > *', {
+        'flex': '0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }})',
+        'margin-right': '{{ block.settings.mobile_gap }}px',
+        'margin-bottom': '{{ block.settings.mobile_gap }}px'
+      });
+      window.steroids.polyfillHasSelector('* > * *:nth-child({{ block.settings.mobile_columns }}n)', ':scope > div#shopify-block-{{ block.id }}', {
+        'margin-right': '0px'
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Section Columns",
+  "target": "section",
+  "javascript": "steroids.js",
+  "templates": ["index", "page"],
+  "settings": [
+    {
+      "type": "range",
+      "id": "mobile_columns",
+      "label": "Mobile Columns",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile Gap",
+      "step": 1,
+      "min": 0,
+      "max": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "tablet_columns",
+      "label": "Tablet Columns",
+      "step": 1,
+      "min": 1,
+      "max": 6,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "tablet_gap",
+      "label": "Tablet Gap",
+      "step": 1,
+      "min": 0,
+      "max": 20,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop Columns",
+      "step": 1,
+      "min": 1,
+      "max": 9,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap",
+      "label": "Desktop Gap",
+      "step": 1,
+      "min": 0,
+      "max": 30,
+      "default": 0,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}

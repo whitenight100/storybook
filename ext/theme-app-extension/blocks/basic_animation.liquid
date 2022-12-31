@@ -1,0 +1,238 @@
+<style>
+  #shopify-block-{{ block.id }} {
+    max-width: 0px !important;
+    max-height: 0px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  section:has(#shopify-block-{{ block.id }}) {
+    overflow: hidden;
+  }
+  section:has(#shopify-block-{{ block.id }}) {{ block.settings.animation_target }} {
+    will-change: transform;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.steroids.polyfillHasSelector('section', '#shopify-block-{{ block.id }}', {
+      overflow: "hidden"
+    });
+    window.steroids.polyfillHasSelector('section', '#shopify-block-{{ block.id }} {{ block.settings.animation_target }}', {
+      'will-change': "transform"
+    });
+
+    window.steroids.createBasicAnimation(
+      "#shopify-block-{{ block.id }}",
+      "{{ block.settings.animation_target }}",
+      {{ block.settings.animation_duration }},
+      "{{ block.settings.animation_direction }}",
+      {{ block.settings.animation_loop }},
+      "{{ block.settings.animation_translate_x }}",
+      "{{ block.settings.animation_translate_y }}",
+      [{{ block.settings.animation_initial_scale }}, {{ block.settings.animation_final_scale }}],
+      [{{ block.settings.animation_initial_rotation }}, {{ block.settings.animation_final_rotation }}],
+      [{{ block.settings.animation_initial_transparency }}, {{ block.settings.animation_final_transparency }}],
+      [{{ block.settings.animation_initial_blur }}, {{ block.settings.animation_final_blur }}],
+      "{{ block.settings.animation_initial_background }},{{ block.settings.animation_final_background }}"
+    );
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Basic Animation",
+  "target": "section",
+  "javascript": "steroids.js",
+  "templates": [
+    "index",
+    "page"
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "animation_target",
+      "label": "Animation Target",
+      "placeholder": "#target-element",
+      "info": "The element that will be animated. This can be any valid CSS selector."
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation Duration",
+      "step": 100,
+      "min": 0,
+      "max": 5000,
+      "default": 1000,
+      "unit": "ms",
+      "info": "The duration of the animation."
+    },
+    {
+      "type": "select",
+      "id": "animation_direction",
+      "label": "Animation Direction",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "reverse",
+          "label": "Reverse"
+        },
+        {
+          "value": "alternate",
+          "label": "Alternate"
+        }
+      ],
+      "default": "normal",
+      "info": "The direction of the animation."
+    },
+    {
+      "type": "checkbox",
+      "id": "animation_loop",
+      "label": "Loop Animation",
+      "default": false,
+      "info": "Whether the animation should loop."
+    },
+    {
+      "type": "header",
+      "content": "Transform"
+    },
+    {
+      "type": "paragraph",
+      "content": "Transformations applied to the element during the animation."
+    },
+    {
+      "type": "text",
+      "id": "animation_translate_x",
+      "label": "Translate X",
+      "placeholder": "200px or 200px,400px",
+      "info": "The amount of horizontal translation. It can be single value (e.g. 200px) or a tuple of values (e.g. 200px,400px)."
+    },
+    {
+      "type": "text",
+      "id": "animation_translate_y",
+      "label": "Translate Y",
+      "placeholder": "200px or 200px,400px",
+      "info": "The amount of vertical translation. It can be single value (e.g. 200px) or a tuple of values (e.g. 200px,400px)."
+    },
+    {
+      "type": "range",
+      "id": "animation_initial_scale",
+      "label": "Initial Scale",
+      "step": 10,
+      "min": 0,
+      "max": 500,
+      "default": 100,
+      "unit": "%",
+      "info": "The initial scale of the element."
+    },
+    {
+      "type": "range",
+      "id": "animation_final_scale",
+      "label": "Final Scale",
+      "step": 10,
+      "min": 0,
+      "max": 500,
+      "default": 100,
+      "unit": "%",
+      "info": "The final scale of the element."
+    },
+    {
+      "type": "range",
+      "id": "animation_initial_rotation",
+      "label": "Initial Rotation",
+      "step": 15,
+      "min": -720,
+      "max": 720,
+      "default": 0,
+      "unit": "deg",
+      "info": "The initial rotation of the element."
+    },
+    {
+      "type": "range",
+      "id": "animation_final_rotation",
+      "label": "Final Rotation",
+      "step": 15,
+      "min": -720,
+      "max": 720,
+      "default": 0,
+      "unit": "deg",
+      "info": "The final rotation of the element."
+    },
+    {
+      "type": "header",
+      "content": "Filters"
+    },
+    {
+      "type": "paragraph",
+      "content": "Effects applied to the element during the animation."
+    },
+    {
+      "type": "range",
+      "id": "animation_initial_transparency",
+      "label": "Initial Transparency",
+      "step": 5,
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "%",
+      "info": "The initial transparency of the element."
+    },
+    {
+      "type": "range",
+      "id": "animation_final_transparency",
+      "label": "Final Transparency",
+      "step": 5,
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "%",
+      "info": "The final transparency of the element."
+    },
+    {
+      "type": "range",
+      "id": "animation_initial_blur",
+      "label": "Initial Blur",
+      "step": 5,
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "%",
+      "info": "The initial blur of the element."
+    },
+    {
+      "type": "range",
+      "id": "animation_final_blur",
+      "label": "Final Blur",
+      "step": 5,
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "%",
+      "info": "The final blur of the element."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "paragraph",
+      "content": "Color changes applied to the element during the animation."
+    },
+    {
+      "type": "color_background",
+      "id": "animation_initial_background_color",
+      "label": "Initial Background Color",
+      "info": "The initial background color of the element."
+    },
+    {
+      "type": "color_background",
+      "id": "animation_final_background_color",
+      "label": "Final Background Color",
+      "info": "The final background color of the element."
+    }
+  ]
+}
+{% endschema %}

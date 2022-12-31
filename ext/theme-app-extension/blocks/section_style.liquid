@@ -1,0 +1,161 @@
+<style>
+  #shopify-block-{{ block.id }} {
+    max-width: 0px !important;
+    max-height: 0px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  section:has(#shopify-block-{{ block.id }}) {
+    padding-top: {{ block.settings.top_padding }}rem;
+    padding-bottom: {{ block.settings.bottom_padding }}rem;
+
+    {% if block.settings.background_color != blank and block.settings.background_color.alpha != 0.0 %}
+    background: {{ block.settings.background_color }};
+    {% endif %}
+    {% if block.settings.background_image != blank %}
+    background-image: url("https:{{ block.settings.background_image | image_url }}");
+    background-attachment: {{ block.settings.mobile_background_style }};
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    {% endif %}
+  }
+  @media (min-width: 750px) {
+    section:has(#shopify-block-{{ block.id }}) {
+      {% if block.settings.background_image != blank %}
+      background-attachment: {{ block.settings.tablet_background_style }};
+      {% endif %}
+    }
+  }
+  @media (min-width: 1400px) {
+    section:has(#shopify-block-{{ block.id }}) {
+      {% if block.settings.background_image != blank %}
+      background-attachment: {{ block.settings.desktop_background_style }};
+      {% endif %}
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.steroids.polyfillHasSelector('section', '#shopify-block-{{ block.id }}', {
+      {% if block.settings.background_color != blank and block.settings.background_color.alpha != 0.0 %}
+      'background: {{ block.settings.background_color }}',
+      {% endif %}
+      {% if block.settings.background_image != blank %}
+      'background-image': 'url("https:{{ block.settings.image_parallax | image_url }}")',
+      'background-attachment': '{{ block.settings.mobile_background_style }}',
+      'background-position': 'center',
+      'background-repeat': 'no-repeat',
+      'background-size': 'cover',
+      {% endif %}
+    }, {
+      '(min-width: 750px)': {
+        {% if block.settings.background_image != blank %}
+        'background-attachment': '{{ block.settings.tablet_background_style }}',
+        {% endif %}
+      },
+      '(min-width: 1400px)': {
+        {% if block.settings.background_image != blank %}
+        'background-attachment': '{{ block.settings.desktop_background_style }}',
+        {% endif %}
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Section Style",
+  "target": "section",
+  "javascript": "steroids.js",
+  "templates": [
+    "index",
+    "page"
+  ],
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Backgroud Image"
+    },
+    {
+      "type": "select",
+      "id": "mobile_background_style",
+      "label": "Mobile Background Style",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "Standard"
+        },
+        {
+          "value": "fixed",
+          "label": "Parallax"
+        }
+      ],
+      "info": "The background style for desktop."
+    },
+    {
+      "type": "select",
+      "id": "tablet_background_style",
+      "label": "Tablet Background Style",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "Standard"
+        },
+        {
+          "value": "fixed",
+          "label": "Parallax"
+        }
+      ],
+      "info": "The background style for desktop."
+    },
+    {
+      "type": "select",
+      "id": "desktop_background_style",
+      "label": "Desktop Background Style",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "Standard"
+        },
+        {
+          "value": "fixed",
+          "label": "Parallax"
+        }
+      ],
+      "info": "The background style for desktop."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top Padding",
+      "step": 1,
+      "min": 0,
+      "max": 20,
+      "default": 4,
+      "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom Padding",
+      "step": 1,
+      "min": 0,
+      "max": 20,
+      "default": 4,
+      "unit": "rem"
+    }
+  ]
+}
+{% endschema %}

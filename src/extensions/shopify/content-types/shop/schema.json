@@ -1,0 +1,92 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shopify_shops",
+  "info": {
+    "singularName": "shop",
+    "pluralName": "shops",
+    "displayName": "Shop",
+    "name": "Shop",
+    "description": ""
+  },
+  "options": {
+    "timestamps": true,
+    "increments": true,
+    "draftAndPublish": false,
+    "populateCreatorFields": false
+  },
+  "attributes": {
+    "domain": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "configurable": false
+    },
+    "email": {
+      "type": "string",
+      "configurable": false
+    },
+    "installed": {
+      "type": "boolean",
+      "required": true,
+      "configurable": false
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "address1": {
+      "type": "string"
+    },
+    "address2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "country_code": {
+      "type": "string"
+    },
+    "country_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "iana_timezone": {
+      "type": "string"
+    },
+    "plan_name": {
+      "type": "string"
+    },
+    "primary_locale": {
+      "type": "string"
+    },
+    "province": {
+      "type": "string"
+    },
+    "province_code": {
+      "type": "string"
+    },
+    "shop_owner": {
+      "type": "string"
+    },
+    "zip": {
+      "type": "string"
+    },
+    "timezone": {
+      "type": "string"
+    },
+    "google_apps_domain": {
+      "type": "string"
+    },
+    "google_apps_login_enabled": {
+      "type": "boolean"
+    }
+  }
+}

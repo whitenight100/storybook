@@ -1,0 +1,56 @@
+{% liquid
+  assign image_id = block.settings.id | escape
+  if image_id == null or image_id == ''
+    assign image_id = 'magic-image-' | append: block.id
+  endif
+%}
+{% liquid
+  assign image_class = block.settings.class | escape
+  if image_class == null or image_class == ''
+    assign image_class = 'magic-image'
+  endif
+%}
+
+{{
+  block.settings.image
+  | image_url: width: 480
+  | image_tag: loading: 'lazy', widths: '480, 1024, 2048', id: image_id, class: image_class
+}}
+
+<style>
+  #{{ image_id }} {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Magic Image",
+  "target": "section",
+  "templates": ["index", "page"],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Config"
+    },
+    {
+      "type": "text",
+      "id": "id",
+      "label": "ID",
+      "info": "The css id of the element."
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "Class",
+      "info": "The css class of the element."
+    }
+  ]
+}
+{% endschema %}

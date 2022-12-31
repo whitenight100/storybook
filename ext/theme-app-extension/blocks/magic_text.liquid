@@ -1,0 +1,579 @@
+<{{ block.settings.tag }} id="{{ block.settings.id }}" class="{{ block.settings.class }}">
+  {{ block.settings.text }}
+</{{ block.settings.tag }}>
+
+<style>
+  {% comment %} text size & weight on mobile {% endcomment %}
+  #shopify-block-{{ block.id }} {{ block.settings.tag }} {
+    {{ block.settings.size_mobile }}
+    {{ block.settings.weight_mobile }}
+    {{ block.settings.align_mobile }}
+    margin-block-start: 0;
+    margin-block-end: 0;
+    word-break: break-word;
+  }
+  {% comment %} text size & weight on mobile {% endcomment %}
+  @media (min-width: 750px) {
+    #shopify-block-{{ block.id }} {{ block.settings.tag }} {
+      {{ block.settings.size_tablet }}
+      {{ block.settings.weight_tablet }}
+      {{ block.settings.align_tablet }}
+    }
+  }
+  {% comment %} text size & weight on desktop {% endcomment %}
+  @media (min-width: 1400px) {
+    #shopify-block-{{ block.id }} {{ block.settings.tag }} {
+      {{ block.settings.size_desktop }}
+      {{ block.settings.weight_desktop }}
+      {{ block.settings.align_desktop }}
+    }
+  }
+
+  {% comment %} text color {% endcomment %}
+  {% if block.settings.tcolor != blank and block.settings.tcolor.alpha != 0.0 %}
+  #shopify-block-{{ block.id }} {{ block.settings.tag }} {
+    color: {{ block.settings.tcolor }};
+  }
+  #shopify-block-{{ block.id }} {{ block.settings.tag }} a {
+    color: {{ block.settings.tcolor }};
+    text-decoration-color: {{ block.settings.tcolor }};
+  }
+  {% endif %}
+
+  {% comment %} bold text weight {% endcomment %}
+  {% unless block.settings.bweight %}
+  #shopify-block-{{ block.id }} {{ block.settings.tag }} strong {
+    font-weight: inherit;
+  }
+  {% endunless %}
+
+  {% comment %} bold text color {% endcomment %}
+  {% if block.settings.bcolor != blank  and block.settings.bcolor.alpha != 0.0 %}
+  #shopify-block-{{ block.id }} {{ block.settings.tag }} strong {
+    color: {{ block.settings.bcolor }};
+  }
+  #shopify-block-{{ block.id }} {{ block.settings.tag }} a strong {
+    color: {{ block.settings.bcolor }};
+    text-decoration-color: {{ block.settings.bcolor }};
+  }
+  #shopify-block-{{ block.id }} {{ block.settings.tag }} a:has(strong) {
+    color: {{ block.settings.bcolor }};
+    text-decoration-color: {{ block.settings.bcolor }};
+  }
+  {% endif %}
+</style>
+
+<script>
+  {% if block.settings.bcolor != blank  and block.settings.bcolor.alpha != 0.0 %}
+  document.addEventListener('DOMContentLoaded', function () {
+    window.steroids.polyfillHasSelector('#shopify-block-{{ block.id }} {{ block.settings.tag }} a', 'strong', {
+      'color': '{{ block.settings.bcolor }}',
+      'text-decoration-color': '{{ block.settings.bcolor }}',
+    });
+  });
+  {% endif %}
+</script>
+
+{% schema %}
+{
+  "name": "Magic Text",
+  "target": "section",
+  "templates": [
+    "index",
+    "page"
+  ],
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "Magic text"
+    },
+    {
+      "type": "header",
+      "content": "Config"
+    },
+    {
+      "type": "paragraph",
+      "content": "Set the tag, size, weight and color of the text."
+    },
+    {
+      "label": "Tag",
+      "id": "tag",
+      "type": "select",
+      "options": [
+        {
+          "value": "p",
+          "label": "p"
+        },
+        {
+          "value": "h1",
+          "label": "h1"
+        },
+        {
+          "value": "h2",
+          "label": "h2"
+        },
+        {
+          "value": "h3",
+          "label": "h3"
+        },
+        {
+          "value": "h4",
+          "label": "h4"
+        },
+        {
+          "value": "h5",
+          "label": "h5"
+        },
+        {
+          "value": "h6",
+          "label": "h6"
+        }
+      ],
+      "default": "p",
+      "info": "The tag of the element."
+    },
+    {
+      "type": "text",
+      "id": "id",
+      "label": "ID",
+      "info": "The css id of the element."
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "Class",
+      "info": "The css class of the element."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "paragraph",
+      "content": "Set the style of the text."
+    },
+    {
+      "label": "Text Color",
+      "id": "tcolor",
+      "type": "color",
+      "info": "The color of the text."
+    },
+    {
+      "label": "Bold Color",
+      "id": "bcolor",
+      "type": "color",
+      "info": "The color of the bold text."
+    },
+    {
+      "label": "Bold Weight",
+      "id": "bweight",
+      "type": "checkbox",
+      "default": true,
+      "info": "Make the bold text bold."
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "paragraph",
+      "content": "Set the size of the text for each screen size."
+    },
+    {
+      "label": "Mobile Size",
+      "id": "size_mobile",
+      "type": "select",
+      "options": [
+        {
+          "value": "font-size: 1.2rem; line-height: 1.6rem;",
+          "label": "xs"
+        },
+        {
+          "value": "font-size: 1.4rem; line-height: 2rem;",
+          "label": "sm"
+        },
+        {
+          "value": "font-size: 1.6rem; line-height: 2.4rem;",
+          "label": "md"
+        },
+        {
+          "value": "font-size: 1.8rem; line-height: 2.8rem;",
+          "label": "lg"
+        },
+        {
+          "value": "font-size: 2rem; line-height: 2.8rem;",
+          "label": "xl"
+        },
+        {
+          "value": "font-size: 2.4rem; line-height: 3.2rem;",
+          "label": "2xl"
+        },
+        {
+          "value": "font-size: 3rem; line-height: 3.6rem;",
+          "label": "3xl"
+        },
+        {
+          "value": "font-size: 3.6rem; line-height: 4rem;",
+          "label": "4xl"
+        },
+        {
+          "value": "font-size: 4.8rem; line-height: 1;",
+          "label": "5xl"
+        },
+        {
+          "value": "font-size: 6rem; line-height: 1;",
+          "label": "6xl"
+        },
+        {
+          "value": "font-size: 7.2rem; line-height: 1;",
+          "label": "7xl"
+        },
+        {
+          "value": "font-size: 9.6rem; line-height: 1;",
+          "label": "8xl"
+        },
+        {
+          "value": "font-size: 12.8rem; line-height: 1;",
+          "label": "9xl"
+        }
+      ],
+      "default": "font-size: 1.6rem; line-height: 2.4rem;",
+      "info": "The size of the element on mobile."
+    },
+    {
+      "label": "Mobile Weight",
+      "id": "weight_mobile",
+      "type": "select",
+      "options": [
+        {
+          "value": "font-weight: 100;",
+          "label": "thin"
+        },
+        {
+          "value": "font-weight: 200;",
+          "label": "extralight"
+        },
+        {
+          "value": "font-weight: 300;",
+          "label": "light"
+        },
+        {
+          "value": "font-weight: 400;",
+          "label": "normal"
+        },
+        {
+          "value": "font-weight: 500;",
+          "label": "medium"
+        },
+        {
+          "value": "font-weight: 600;",
+          "label": "semibold"
+        },
+        {
+          "value": "font-weight: 700;",
+          "label": "bold"
+        },
+        {
+          "value": "font-weight: 800;",
+          "label": "extrabold"
+        },
+        {
+          "value": "font-weight: 900;",
+          "label": "black"
+        }
+      ],
+      "default": "font-weight: 500;",
+      "info": "The weight of the element on mobile."
+    },
+    {
+      "label": "Mobile Align",
+      "id": "align_mobile",
+      "type": "select",
+      "options": [
+        {
+          "value": "text-align: left;",
+          "label": "left"
+        },
+        {
+          "value": "text-align: center;",
+          "label": "center"
+        },
+        {
+          "value": "text-align: right;",
+          "label": "right"
+        },
+        {
+          "value": "text-align: justify;",
+          "label": "justify"
+        }
+      ],
+      "default": "text-align: left;",
+      "info": "The alignment of the element on mobile."
+    },
+    {
+      "label": "Tablet Size",
+      "id": "size_tablet",
+      "type": "select",
+      "options": [
+        {
+          "value": "font-size: 1.2rem; line-height: 1.6rem;",
+          "label": "xs"
+        },
+        {
+          "value": "font-size: 1.4rem; line-height: 2rem;",
+          "label": "sm"
+        },
+        {
+          "value": "font-size: 1.6rem; line-height: 2.4rem;",
+          "label": "md"
+        },
+        {
+          "value": "font-size: 1.8rem; line-height: 2.8rem;",
+          "label": "lg"
+        },
+        {
+          "value": "font-size: 2rem; line-height: 2.8rem;",
+          "label": "xl"
+        },
+        {
+          "value": "font-size: 2.4rem; line-height: 3.2rem;",
+          "label": "2xl"
+        },
+        {
+          "value": "font-size: 3rem; line-height: 3.6rem;",
+          "label": "3xl"
+        },
+        {
+          "value": "font-size: 3.6rem; line-height: 4rem;",
+          "label": "4xl"
+        },
+        {
+          "value": "font-size: 4.8rem; line-height: 1;",
+          "label": "5xl"
+        },
+        {
+          "value": "font-size: 6rem; line-height: 1;",
+          "label": "6xl"
+        },
+        {
+          "value": "font-size: 7.2rem; line-height: 1;",
+          "label": "7xl"
+        },
+        {
+          "value": "font-size: 9.6rem; line-height: 1;",
+          "label": "8xl"
+        },
+        {
+          "value": "font-size: 12.8rem; line-height: 1;",
+          "label": "9xl"
+        }
+      ],
+      "default": "font-size: 1.6rem; line-height: 2.4rem;",
+      "info": "The size of the element on tablet."
+    },
+    {
+      "label": "Tablet Weight",
+      "id": "weight_tablet",
+      "type": "select",
+      "options": [
+        {
+          "value": "font-weight: 100;",
+          "label": "thin"
+        },
+        {
+          "value": "font-weight: 200;",
+          "label": "extralight"
+        },
+        {
+          "value": "font-weight: 300;",
+          "label": "light"
+        },
+        {
+          "value": "font-weight: 400;",
+          "label": "normal"
+        },
+        {
+          "value": "font-weight: 500;",
+          "label": "medium"
+        },
+        {
+          "value": "font-weight: 600;",
+          "label": "semibold"
+        },
+        {
+          "value": "font-weight: 700;",
+          "label": "bold"
+        },
+        {
+          "value": "font-weight: 800;",
+          "label": "extrabold"
+        },
+        {
+          "value": "font-weight: 900;",
+          "label": "black"
+        }
+      ],
+      "default": "font-weight: 500;",
+      "info": "The weight of the element on tablet."
+    },
+    {
+      "label": "Tablet Align",
+      "id": "align_tablet",
+      "type": "select",
+      "options": [
+        {
+          "value": "text-align: left;",
+          "label": "left"
+        },
+        {
+          "value": "text-align: center;",
+          "label": "center"
+        },
+        {
+          "value": "text-align: right;",
+          "label": "right"
+        },
+        {
+          "value": "text-align: justify;",
+          "label": "justify"
+        }
+      ],
+      "default": "text-align: left;",
+      "info": "The alignment of the element on tablet."
+    },
+    {
+      "label": "Desktop Size",
+      "id": "size_desktop",
+      "type": "select",
+      "options": [
+        {
+          "value": "font-size: 1.2rem; line-height: 1.6rem;",
+          "label": "xs"
+        },
+        {
+          "value": "font-size: 1.4rem; line-height: 2rem;",
+          "label": "sm"
+        },
+        {
+          "value": "font-size: 1.6rem; line-height: 2.4rem;",
+          "label": "md"
+        },
+        {
+          "value": "font-size: 1.8rem; line-height: 2.8rem;",
+          "label": "lg"
+        },
+        {
+          "value": "font-size: 2rem; line-height: 2.8rem;",
+          "label": "xl"
+        },
+        {
+          "value": "font-size: 2.4rem; line-height: 3.2rem;",
+          "label": "2xl"
+        },
+        {
+          "value": "font-size: 3rem; line-height: 3.6rem;",
+          "label": "3xl"
+        },
+        {
+          "value": "font-size: 3.6rem; line-height: 4rem;",
+          "label": "4xl"
+        },
+        {
+          "value": "font-size: 4.8rem; line-height: 1;",
+          "label": "5xl"
+        },
+        {
+          "value": "font-size: 6rem; line-height: 1;",
+          "label": "6xl"
+        },
+        {
+          "value": "font-size: 7.2rem; line-height: 1;",
+          "label": "7xl"
+        },
+        {
+          "value": "font-size: 9.6rem; line-height: 1;",
+          "label": "8xl"
+        },
+        {
+          "value": "font-size: 12.8rem; line-height: 1;",
+          "label": "9xl"
+        }
+      ],
+      "default": "font-size: 1.6rem; line-height: 2.4rem;",
+      "info": "The size of the element on desktop."
+    },
+    {
+      "label": "Desktop Weight",
+      "id": "weight_desktop",
+      "type": "select",
+      "options": [
+        {
+          "value": "font-weight: 100;",
+          "label": "thin"
+        },
+        {
+          "value": "font-weight: 200;",
+          "label": "extralight"
+        },
+        {
+          "value": "font-weight: 300;",
+          "label": "light"
+        },
+        {
+          "value": "font-weight: 400;",
+          "label": "normal"
+        },
+        {
+          "value": "font-weight: 500;",
+          "label": "medium"
+        },
+        {
+          "value": "font-weight: 600;",
+          "label": "semibold"
+        },
+        {
+          "value": "font-weight: 700;",
+          "label": "bold"
+        },
+        {
+          "value": "font-weight: 800;",
+          "label": "extrabold"
+        },
+        {
+          "value": "font-weight: 900;",
+          "label": "black"
+        }
+      ],
+      "default": "font-weight: 500;",
+      "info": "The weight of the element on desktop."
+    },
+    {
+      "label": "Desktop Align",
+      "id": "align_desktop",
+      "type": "select",
+      "options": [
+        {
+          "value": "text-align: left;",
+          "label": "left"
+        },
+        {
+          "value": "text-align: center;",
+          "label": "center"
+        },
+        {
+          "value": "text-align: right;",
+          "label": "right"
+        },
+        {
+          "value": "text-align: justify;",
+          "label": "justify"
+        }
+      ],
+      "default": "text-align: left;",
+      "info": "The alignment of the element on desktop."
+    }
+  ]
+}
+{% endschema %}
