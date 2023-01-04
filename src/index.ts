@@ -9,6 +9,8 @@ export default {
   async bootstrap({ strapi }) {
     // bootstrap client
     await client.bootstrap({ strapi });
+    // initialize steroids
+    strapi.service('api::steroids.initialize').initialize();
   },
 
   async destroy({ strapi }) {
