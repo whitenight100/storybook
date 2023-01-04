@@ -1,7 +1,7 @@
 {
   "name": "@shop3/shopify-steroids",
   "version": "0.1.0",
-  "description": "A Shopify useful collection of tools.",
+  "description": "A collection of tools for Shopify themes.",
   "private": true,
   "scripts": {
     "develop": "strapi develop",

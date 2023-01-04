@@ -1,6 +1,6 @@
 # Shopify Steroids
 
-This is a collection of tools for your Shopify store.
+This is a collection of tools for your Shopify theme.
 
 ## Getting Started
 
