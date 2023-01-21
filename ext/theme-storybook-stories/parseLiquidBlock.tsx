@@ -22,10 +22,9 @@ const parseLiquid = (liquid: string) => {
       }
       if (!closed) throw new Error(`tag ${tagToken.getText()} not closed`);
     },
-    *render(context: Context, emitter: Emitter) { },
+    *render(context: Context, emitter: Emitter) {},
   });
   const tpl = engine.parse(liquid);
-
 
   // the react component
   const LiquidBlock: React.FC<any> = ({ id, block }) => {
