@@ -22,27 +22,38 @@ const parseLiquid = (liquid: string) => {
       }
       if (!closed) throw new Error(`tag ${tagToken.getText()} not closed`);
     },
-    *render(context: Context, emitter: Emitter) {},
+    *render(context: Context, emitter: Emitter) { },
   });
   const tpl = engine.parse(liquid);
 
+
   // the react component
-  const LiquidBlock: React.FC = (props: any) => {
-    // random id
-    const id = Math.random().toString(36).substring(2, 9);
-    return (
-      <div
-        id={'shopify-block-' + id}
-        dangerouslySetInnerHTML={{
-          __html: engine.renderSync(tpl, {
-            block: {
-              id,
-              settings: props,
-            },
-          } as any),
-        }}
-      />
-    );
+  const LiquidBlock: React.FC<any> = ({ id, block }) => {
+    // render html
+    const html = React.useMemo(() => {
+      return engine.renderSync(tpl, {
+        block: {
+          id,
+          settings: block,
+        },
+      });
+    }, [block]);
+    // div ref
+    const ref = React.useRef(null);
+    // set html
+    React.useEffect(() => {
+      if (!html || !ref.current) throw new Error("html prop cant't be null");
+      const slotHtml = document.createRange().createContextualFragment(html);
+      ref.current.innerHTML = '';
+      ref.current.appendChild(slotHtml);
+      return () => {
+        if (ref.current) {
+          ref.current.innerHTML = '';
+        }
+      };
+    }, [html, ref]);
+
+    return <div ref={ref} id={'shopify-block-' + id} />;
   };
 
   return { schema, LiquidBlock };

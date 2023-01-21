@@ -24,17 +24,17 @@
 
     window.steroids.createBasicAnimation(
       "#shopify-block-{{ block.id }}",
-      "{{ block.settings.animation_target }}",
-      {{ block.settings.animation_duration }},
-      "{{ block.settings.animation_direction }}",
-      {{ block.settings.animation_loop }},
-      "{{ block.settings.animation_translate_x }}",
-      "{{ block.settings.animation_translate_y }}",
-      [{{ block.settings.animation_initial_scale }}, {{ block.settings.animation_final_scale }}],
-      [{{ block.settings.animation_initial_rotation }}, {{ block.settings.animation_final_rotation }}],
-      [{{ block.settings.animation_initial_transparency }}, {{ block.settings.animation_final_transparency }}],
-      [{{ block.settings.animation_initial_blur }}, {{ block.settings.animation_final_blur }}],
-      "{{ block.settings.animation_initial_background }},{{ block.settings.animation_final_background }}"
+      "{{ block.settings.animation_target | default: '' }}",
+      {{ block.settings.animation_duration | default: 1000 }},
+      "{{ block.settings.animation_direction | default: 'normal' }}",
+      {{ block.settings.animation_loop | default: false }},
+      "{{ block.settings.animation_translate_x | default: '' }}",
+      "{{ block.settings.animation_translate_y | default: '' }}",
+      [{{ block.settings.animation_initial_scale | default: 100 }}, {{ block.settings.animation_final_scale | default: 100 }}],
+      [{{ block.settings.animation_initial_rotation | default: 0 }}, {{ block.settings.animation_final_rotation | default: 0 }}],
+      [{{ block.settings.animation_initial_transparency | default: 0 }}, {{ block.settings.animation_final_transparency | default: 0 }}],
+      [{{ block.settings.animation_initial_blur | default: 0 }}, {{ block.settings.animation_final_blur | default: 0 }}],
+      "{{ block.settings.animation_initial_background | default: '' }},{{ block.settings.animation_final_background | default: '' }}"
     );
   });
 </script>
@@ -44,10 +44,7 @@
   "name": "Basic Animation",
   "target": "section",
   "javascript": "steroids.js",
-  "templates": [
-    "index",
-    "page"
-  ],
+  "templates": ["index", "page"],
   "settings": [
     {
       "type": "text",

@@ -26,7 +26,17 @@ const schemaToArgTypes = (schema: any) => {
           control: { type: 'boolean' },
         };
         break;
+      case 'range':
+        argType = {
+          control: { type: 'range', min: setting.min, max: setting.max, step: setting.step },
+        };
+        break;
       case 'color':
+        argType = {
+          control: { type: 'color' },
+        };
+        break;
+      case 'color_background':
         argType = {
           control: { type: 'color' },
         };

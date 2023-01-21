@@ -17,7 +17,7 @@ export default {
   },
 };
 
-const Template: React.FC = (args) => <LiquidBlock {...args} />;
+const Template: React.FC = (args) => <LiquidBlock id="000001" block={args} />;
 
 export const Title = Template.bind({});
 
