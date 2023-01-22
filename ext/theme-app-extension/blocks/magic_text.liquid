@@ -36,7 +36,7 @@
   }
   #shopify-block-{{ block.id }} {{ block.settings.tag }} a {
     color: {{ block.settings.tcolor }};
-    text-decoration-color: {{ block.settings.tcolor }};
+    text-decoration: underline;
   }
   {% endif %}
 
@@ -48,35 +48,20 @@
   {% endunless %}
 
   {% comment %} bold text color {% endcomment %}
-  {% if block.settings.bcolor != blank  and block.settings.bcolor.alpha != 0.0 %}
+  {% if block.settings.bcolor != blank and block.settings.bcolor.alpha != 0.0 %}
   #shopify-block-{{ block.id }} {{ block.settings.tag }} strong {
     color: {{ block.settings.bcolor }};
   }
   #shopify-block-{{ block.id }} {{ block.settings.tag }} a strong {
     color: {{ block.settings.bcolor }};
-    text-decoration-color: {{ block.settings.bcolor }};
-  }
-  #shopify-block-{{ block.id }} {{ block.settings.tag }} a:has(strong) {
-    color: {{ block.settings.bcolor }};
-    text-decoration-color: {{ block.settings.bcolor }};
+    text-decoration: underline;
   }
   {% endif %}
 </style>
 
-<script>
-  {% if block.settings.bcolor != blank  and block.settings.bcolor.alpha != 0.0 %}
-  document.addEventListener('DOMContentLoaded', function () {
-    window.steroids.polyfillHasSelector('#shopify-block-{{ block.id }} {{ block.settings.tag }} a', 'strong', {
-      'color': '{{ block.settings.bcolor }}',
-      'text-decoration-color': '{{ block.settings.bcolor }}',
-    });
-  });
-  {% endif %}
-</script>
-
 {% schema %}
 {
-  "name": "Magic Text",
+  "name": "⚙️ Magic Text",
   "target": "section",
   "templates": ["index", "page"],
   "settings": [

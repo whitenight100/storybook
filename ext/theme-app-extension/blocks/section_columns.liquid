@@ -34,40 +34,52 @@
 </style>
 
 <script>
+  // Hide the block if the browser doesn't support :has()
+  if (!CSS.supports('selector(:has(a, b)')) {
+    var block = document.querySelector('#shopify-block-{{ block.id }}');
+    block.parentNode.style['display'] = 'none';
+  }
   document.addEventListener('DOMContentLoaded', function () {
-    {% comment %} need to write a custom polyfill {% endcomment %}
+    // Show the block if the browser doesn't support :has()
+    if (!CSS.supports('selector(:has(a, b)')) {
+      var block = document.querySelector('#shopify-block-{{ block.id }}');
+      block.parentNode.style['display'] = undefined;
+    }
+    // Polyfill the block if the browser doesn't support :has()
     if (CSS.supports('(display: flex) and (gap: 10px)')) {
-      console.log('here')
-      window.steroids.polyfillHasSelector('*', ':scope > div#shopify-block-{{ block.id }}', {
-        'display': 'flex',
+      window.steroids.polyfillHasSelector('*:has(>div#shopify-block-{{ block.id }})', {
+        display: 'flex',
         'flex-wrap': 'wrap',
         'justify-content': 'start',
-        'gap': '{{ block.settings.mobile_gap }}px'
+        gap: '{{ block.settings.mobile_gap }}px',
       });
-      window.steroids.polyfillHasSelector('* > *', ':scope > div#shopify-block-{{ block.id }}', {
-        'flex': '0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }})'
+      window.steroids.polyfillHasSelector('*:has(>div#shopify-block-{{ block.id }}) > *', {
+        flex: '0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }})',
       });
     } else {
-      window.steroids.polyfillHasSelector('*', ':scope > div#shopify-block-{{ block.id }}', {
-        'display': 'flex',
+      window.steroids.polyfillHasSelector('*:has(>div#shopify-block-{{ block.id }})', {
+        display: 'flex',
         'flex-wrap': 'wrap',
-        'justify-content': 'start'
+        'justify-content': 'start',
       });
-      window.steroids.polyfillHasSelector('* > *', ':scope > div#shopify-block-{{ block.id }} > *', {
-        'flex': '0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }})',
+      window.steroids.polyfillHasSelector('*:has(>div#shopify-block-{{ block.id }}) > *', {
+        flex: '0 1 calc({{ 100 | divided_by: block.settings.mobile_columns }}% - {{ block.settings.mobile_gap }}px * {{ block.settings.mobile_columns | minus: 1 }} / {{ block.settings.mobile_columns }})',
         'margin-right': '{{ block.settings.mobile_gap }}px',
-        'margin-bottom': '{{ block.settings.mobile_gap }}px'
+        'margin-bottom': '{{ block.settings.mobile_gap }}px',
       });
-      window.steroids.polyfillHasSelector('* > * *:nth-child({{ block.settings.mobile_columns }}n)', ':scope > div#shopify-block-{{ block.id }}', {
-        'margin-right': '0px'
-      });
+      window.steroids.polyfillHasSelector(
+        '*:has(>div#shopify-block-{{ block.id }}) > *:nth-child({{ block.settings.mobile_columns }}n)',
+        {
+          'margin-right': '0px',
+        }
+      );
     }
   });
 </script>
 
 {% schema %}
 {
-  "name": "Section Columns",
+  "name": "🎨 Section Columns",
   "target": "section",
   "javascript": "steroids.js",
   "templates": ["index", "page"],

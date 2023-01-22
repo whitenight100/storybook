@@ -8,10 +8,11 @@
   section:has(#shopify-block-{{ block.id }}) {
     padding-top: {{ block.settings.top_padding }}rem;
     padding-bottom: {{ block.settings.bottom_padding }}rem;
-
+    {% comment %} Background Color {% endcomment %}
     {% if block.settings.background_color != blank and block.settings.background_color.alpha != 0.0 %}
     background: {{ block.settings.background_color }};
     {% endif %}
+    {% comment %} Background Image {% endcomment %}
     {% if block.settings.background_image != blank %}
     background-image: url("https:{{ block.settings.background_image | image_url }}");
     background-attachment: {{ block.settings.mobile_background_style }};
@@ -21,6 +22,7 @@
     {% endif %}
   }
   @media (min-width: 750px) {
+    {% comment %} Background Image Tablet {% endcomment %}
     section:has(#shopify-block-{{ block.id }}) {
       {% if block.settings.background_image != blank %}
       background-attachment: {{ block.settings.tablet_background_style }};
@@ -28,6 +30,7 @@
     }
   }
   @media (min-width: 1400px) {
+    {% comment %} Background Image Desktop {% endcomment %}
     section:has(#shopify-block-{{ block.id }}) {
       {% if block.settings.background_image != blank %}
       background-attachment: {{ block.settings.desktop_background_style }};
@@ -39,9 +42,11 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     window.steroids.polyfillHasSelector('section', '#shopify-block-{{ block.id }}', {
+      {% comment %} Background Color {% endcomment %}
       {% if block.settings.background_color != blank and block.settings.background_color.alpha != 0.0 %}
       'background: {{ block.settings.background_color }}',
       {% endif %}
+      {% comment %} Background Image {% endcomment %}
       {% if block.settings.background_image != blank %}
       'background-image': 'url("https:{{ block.settings.image_parallax | image_url }}")',
       'background-attachment': '{{ block.settings.mobile_background_style }}',
@@ -51,11 +56,13 @@
       {% endif %}
     }, {
       '(min-width: 750px)': {
+        {% comment %} Background Image Tablet {% endcomment %}
         {% if block.settings.background_image != blank %}
         'background-attachment': '{{ block.settings.tablet_background_style }}',
         {% endif %}
       },
       '(min-width: 1400px)': {
+        {% comment %} Background Image Desktop {% endcomment %}
         {% if block.settings.background_image != blank %}
         'background-attachment': '{{ block.settings.desktop_background_style }}',
         {% endif %}
@@ -66,7 +73,7 @@
 
 {% schema %}
 {
-  "name": "Section Style",
+  "name": "🎨 Section Style",
   "target": "section",
   "javascript": "steroids.js",
   "templates": ["index", "page"],

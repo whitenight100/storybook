@@ -15,13 +15,15 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    window.steroids.polyfillHasSelector('section', '#shopify-block-{{ block.id }}', {
+    // Polyfill for :has() selector
+    window.steroids.polyfillHasSelector('section:has(#shopify-block-{{ block.id }})', {
       overflow: "hidden"
     });
-    window.steroids.polyfillHasSelector('section', '#shopify-block-{{ block.id }} {{ block.settings.animation_target }}', {
+    window.steroids.polyfillHasSelector('section:has(#shopify-block-{{ block.id }}) {{ block.settings.animation_target }}', {
       'will-change': "transform"
     });
 
+    // Create animation
     window.steroids.createBasicAnimation(
       "#shopify-block-{{ block.id }}",
       "{{ block.settings.animation_target | default: '' }}",
@@ -41,7 +43,7 @@
 
 {% schema %}
 {
-  "name": "Basic Animation",
+  "name": "⚡ Basic Animation",
   "target": "section",
   "javascript": "steroids.js",
   "templates": ["index", "page"],
