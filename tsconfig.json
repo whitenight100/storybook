@@ -11,6 +11,7 @@
     "dist/",
     ".cache/",
     ".tmp/",
+    "ext/",
     "src/admin/",
     "src/client/",
     "**/*.test.*",
