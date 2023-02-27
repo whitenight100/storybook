@@ -38,6 +38,7 @@
     "mini-css-extract-plugin": "^2.7.2",
     "mysql": "^2.18.1",
     "raw-loader": "^4.0.2",
+    "sqlite3": "^5.1.4",
     "strapi-plugin-shopify": "^0.2.1",
     "terser-webpack-plugin": "^5.3.6",
     "webpack": "^5.75.0"

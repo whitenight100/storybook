@@ -23,6 +23,6 @@ export const Title = Template.bind({});
 
 Title.args = {
   image: '<img src="https://www.w3schools.com/css/img_5terre.jpg" />',
-  id: 'magic-image-001',
-  class: 'magic-image',
+  id: 'column-grid-001',
+  class: 'column-grid',
 };

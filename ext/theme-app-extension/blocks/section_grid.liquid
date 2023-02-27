@@ -1,0 +1,171 @@
+<style>
+.grid-container {
+  display: grid;
+  gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px;
+  font-size: 30px;
+}
+
+.item1 {
+  grid-column: 1 / span {{ block.settings['item1Columns'] }};
+  grid-row: 1 / span {{ block.settings['item1Rows']}};
+}
+
+.item2 {
+  grid-column: {{1 | plus: block.settings['item1Columns'] }} / span {{ block.settings['item2Columns'] }};
+  grid-row: 1 / span {{ block.settings['item2Rows'] }};
+}
+.item3 {
+  grid-column: 1 / span {{ block.settings['item3Columns'] }};
+  {% comment %} {% if block.settings['item1Rows'] >= block.settings['item2Rows'] %} {% endcomment %}
+  {% comment %} grid-row: {{1 | plus: block.settings['item1Rows']}} / span {{ block.settings['item3Rows'] }}; {% endcomment %}
+  {% comment %} {% endif %} {% endcomment %}
+  {% comment %} {% if block.settings['item1Rows'] < block.settings['item2Rows'] %}
+    grid-row: {{1 | plus: block.settings['item2Rows']}} / span {{ block.settings['item3Rows'] }};
+  {% endif %} {% endcomment %}
+  grid-row: 2 / span {{ block.settings['item3Rows'] }};
+}
+.item4 {
+  grid-column: {{1 | plus: block.settings['item3Columns']}} / span {{ block.settings['item4Columns'] }};
+  {% comment %} {% if block.settings['item1Rows'] >= block.settings['item2Rows'] %} {% endcomment %}
+  {% comment %} grid-row: {{1 | plus: block.settings['item1Rows']}} / span {{ block.settings['item4Rows'] }}; {% endcomment %}
+  {% comment %} {% endif %} {% endcomment %}
+  {% comment %} {% if block.settings['item1Rows'] < block.settings['item2Rows'] %}
+    grid-row: {{1 | plus: block.settings['item2Rows']}} / span {{ block.settings['item4Rows'] }};
+  {% endif %} {% endcomment %}
+  grid-row: 2 / span {{ block.settings['item4Rows'] }};
+}
+.item5 {
+  grid-column: 1 / span {{ block.settings['item5Columns']}} ;
+  {% comment %} {% if block.settings['item1Rows'] >= block.settings['item2Rows'] %}
+    {% assign row = block.settings['item1Rows'] %}
+  {% endif %}
+  {% if block.settings['item1Rows'] < block.settings['item2Rows'] %}
+    {% assign row = block.settings['item2Rows'] %}
+  {% endif %}
+  {% if block.settings['item3Rows'] >= block.settings['item4Rows'] %}
+    grid-row: {{1 | plus: row | plus: block.settings['item3Rows']}} / span {{ block.settings['item5Rows'] }};
+  {% endif %} {% endcomment %}
+  {% comment %} {% if block.settings['item3Rows'] < block.settings['item4Rows'] %} {% endcomment %}
+  {% comment %} grid-row: {{1 | plus: block.settings['item1Rows'] |  plus: block.settings['item3Rows']}} / span {{ block.settings['item5Rows'] }}; {% endcomment %}
+  {% comment %} {% endif %} {% endcomment %}
+  grid-row: 3 / span {{ block.settings['item5Rows'] }};
+}
+</style>
+
+<h1>A Five Items Grid Layout</h1>
+
+<div class="grid-container">
+  <div class="grid-item item1">1</div>
+  <div class="grid-item item2">2</div>
+  <div class="grid-item item3">3</div>  
+  <div class="grid-item item4">4</div>
+  <div class="grid-item item5">5</div>
+</div>
+
+{% schema %}
+{
+  "name": "🎨 Section Grid",
+  "target": "section",
+  "javascript": "steroids.js",
+  "templates": ["index", "page"],
+  "settings": [
+    {
+      "type": "range",
+      "id": "item1Rows",
+      "label": "Item 1 Rows",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item1Columns",
+      "label": "Item 1 Columnss",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item2Rows",
+      "label": "Item 2 Rows",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item2Columns",
+      "label": "Item 2 Columnss",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item3Rows",
+      "label": "Item 3 Rows",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item3Columns",
+      "label": "Item 3 Columnss",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item4Rows",
+      "label": "Item 4 Rows",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item4Columns",
+      "label": "Item 4 Columnss",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item5Rows",
+      "label": "Item 5 Rows",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item5Columns",
+      "label": "Item 5 Columnss",
+      "step": 1,
+      "min": 1,
+      "max": 3,
+      "default": 1
+    }
+  ]
+}
+{% endschema %}
